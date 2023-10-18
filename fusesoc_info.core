@@ -1,0 +1,71 @@
+CAPI=2:
+
+name : AFRL:project:uart_open1553:1.0.0
+
+filesets:
+  src_xilinx:
+    files:
+      - common/xilinx/system_gen.tcl : {file_type : tclSource}
+
+  nexys-a7-100t:
+    files:
+      - nexys-a7-100t/system_constr.xdc : {file_type : xdc}
+      - nexys-a7-100t/system_wrapper.v : {file_type : verilogSource}
+    depend:
+      - AFRL:utility:digilent_nexys-a7-100t_board:1.0.0
+
+  cmod-s7-25:
+    files:
+      - cmod-s7-25/system_constr.xdc : {file_type : xdc}
+      - cmod-s7-25/system_wrapper.v : {file_type : verilogSource}
+    depend:
+      - AFRL:utility:digilent_cmod-s7-25_board:1.0.0
+
+  arty-a7-35:
+    files:
+      - arty-a7-35/system_constr.xdc : {file_type : xdc}
+      - arty-a7-35/system_wrapper.v : {file_type : verilogSource}
+    depend:
+      - AFRL:utility:digilent_arty-a7-35_board:1.0.0
+
+  dep:
+    depend:
+      - AFRL:project_ip:uart_1553_core:1.0.0
+      - AFRL:utility:helper:1.0.0
+      - AFRL:utility:vivado_board_support_packages
+
+targets:
+
+  default: &default
+    filesets: [dep]
+    toplevel: system
+
+  nexys-a7-100t:
+    <<: *default
+    default_tool: vivado
+    filesets_append : [src_xilinx, nexys-a7-100t]
+    tools:
+      vivado:
+        source_mgmt_mode: All
+        board_part: digilentinc.com:nexys-a7-100t:part0:1.2
+        part: xc7a100tcsg324-1
+
+  cmod-s7-25:
+    <<: *default
+    default_tool: vivado
+    filesets_append : [src_xilinx, cmod-s7-25]
+    tools:
+      vivado:
+        source_mgmt_mode: All
+        board_part: digilentinc.com:cmod-s7-25:part0:1.0
+        part: xc7s25csga225-1
+
+  arty-a7-35:
+    <<: *default
+    default_tool: vivado
+    filesets_append : [src_xilinx, arty-a7-35]
+    tools:
+      vivado:
+        source_mgmt_mode: All
+        board_part: digilentinc.com:arty-a7-35:part0:1.0
+        part: xc7a35ticsg324-1L

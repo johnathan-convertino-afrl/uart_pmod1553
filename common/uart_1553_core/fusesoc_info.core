@@ -1,0 +1,50 @@
+CAPI=2:
+
+name: AFRL:project_ip:uart_1553_core:1.0.0
+description: Common core for uart 1553
+
+filesets:
+  src:
+    files:
+      - src/uart_1553_core.v
+      - src/axis_1553_string_decoder.v
+      - src/axis_1553_string_encoder.v
+      - src/axis_char_to_string_converter.v
+    file_type: verilogSource
+  
+  tb:
+    files:
+      - tb/tb_core.v : { file_type: verilogSource }
+      - tb/tb_converter.v : { file_type: verilogSource }
+      - tb/tb_decoder.v : { file_type: verilogSource }
+      - tb/tb_encoder.v : { file_type: verilogSource }
+  dep:
+    depend:
+      - AFRL:device_converter:axis_1553_decoder:1.0.0
+      - AFRL:buffer:axis_fifo:1.0.0
+      - AFRL:streaming_converter:axis_data_width_converter:1.0.1
+      - AFRL:buffer:axis_tiny_fifo:1.0.0
+      - AFRL:device_converter:axis_uart:1.0.0
+      - AFRL:device_converter:axis_1553_encoder:1.0.0
+
+targets:
+  default: &default
+    filesets: [src, dep]
+    
+  sim_core: &sim_core
+    <<: *default
+    default_tool: icarus
+    toplevel: tb_core
+    filesets_append: [tb]
+
+  sim_converter:
+    <<: *sim_core
+    toplevel: tb_converter
+
+  sim_decoder:
+    <<: *sim_core
+    toplevel: tb_decoder
+
+  sim_encoder:
+    <<: *sim_core
+    toplevel: tb_encoder
