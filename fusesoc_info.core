@@ -1,6 +1,7 @@
 CAPI=2:
 
 name : AFRL:project:uart_open1553:1.0.0
+description: AFRL uart 1553 bus device project.
 
 filesets:
   src_xilinx:
@@ -12,21 +13,21 @@ filesets:
       - nexys-a7-100t/system_constr.xdc : {file_type : xdc}
       - nexys-a7-100t/system_wrapper.v : {file_type : verilogSource}
     depend:
-      - AFRL:utility:digilent_nexys-a7-100t_board:1.0.0
+      - AFRL:utility:digilent_nexys-a7-100t_board_base:1.0.0
 
   cmod-s7-25:
     files:
       - cmod-s7-25/system_constr.xdc : {file_type : xdc}
       - cmod-s7-25/system_wrapper.v : {file_type : verilogSource}
     depend:
-      - AFRL:utility:digilent_cmod-s7-25_board:1.0.0
+      - AFRL:utility:digilent_cmod-s7-25_board_base:1.0.0
 
   arty-a7-35:
     files:
       - arty-a7-35/system_constr.xdc : {file_type : xdc}
       - arty-a7-35/system_wrapper.v : {file_type : verilogSource}
     depend:
-      - AFRL:utility:digilent_arty-a7-35_board:1.0.0
+      - AFRL:utility:digilent_arty-a7-35_board_base:1.0.0
 
   dep:
     depend:
@@ -37,11 +38,13 @@ filesets:
 targets:
 
   default: &default
+    description: Default files, invalid gen target.
     filesets: [dep]
-    toplevel: system
+    toplevel: system_wrapper
 
   nexys-a7-100t:
     <<: *default
+    description: Nexyx a7 100t dev board target.
     default_tool: vivado
     filesets_append : [src_xilinx, nexys-a7-100t]
     tools:
@@ -53,6 +56,7 @@ targets:
   cmod-s7-25:
     <<: *default
     default_tool: vivado
+    description: cmod s7 25 dev board target.
     filesets_append : [src_xilinx, cmod-s7-25]
     tools:
       vivado:
@@ -63,6 +67,7 @@ targets:
   arty-a7-35:
     <<: *default
     default_tool: vivado
+    description: arty a7 35 dev board target.
     filesets_append : [src_xilinx, arty-a7-35]
     tools:
       vivado:

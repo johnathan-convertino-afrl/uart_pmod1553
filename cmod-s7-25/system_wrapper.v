@@ -6,7 +6,7 @@
 
 `timescale 1ns/100ps
 
-module system #(
+module system_wrapper #(
   parameter clock_speed = 2000000,
   parameter baud_rate = 1000000,
   parameter mil1553_sample_rate = 2000000
