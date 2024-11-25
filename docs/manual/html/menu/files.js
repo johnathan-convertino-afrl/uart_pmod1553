@@ -1,0 +1,1 @@
+﻿NDMenu.OnSectionLoaded("files.js",[[2,"arty_uart_1553","File2:",[[1,"system_wrapper.v"]]],[2,"cmod_uart_1553","File3:",[[1,"system_wrapper.v"]]],[2,"common_uart_1553","File:",[[1,"axis_1553_string_decoder.v"],[1,"axis_1553_string_encoder.v"],[1,"axis_char_to_string_converter.v"],[1,"uart_1553_core.v"]]],[2,"nexys_uart_1553","File4:",[[1,"system_wrapper.v"]]]]);

@@ -1,50 +1,66 @@
-// ***************************************************************************
-// ***************************************************************************
-// @FILE    axis_char_to_string_converter.v
-// @AUTHOR  JAY CONVERTINO
-// @DATE    2021.06.21
-// @BRIEF   AXIS CHAR TO STRING CONVERTER
-// @DETAILS Convert characters to a string. Output valid on 
-//          carrige return or full.
+//******************************************************************************
+//  file:     axis_char_to_string_converter.v
 //
-// @LICENSE MIT
+//  author:   JAY CONVERTINO
+//
+//  date:     2021/06/21
+//
+//  about:    Brief
+//  Convert characters to a string. Output valid on carrige return or full.
+//
+//  license: License MIT
 //  Copyright 2021 Jay Convertino
 //
 //  Permission is hereby granted, free of charge, to any person obtaining a copy
-//  of this software and associated documentation files (the "Software"), to 
+//  of this software and associated documentation files (the "Software"), to
 //  deal in the Software without restriction, including without limitation the
-//  rights to use, copy, modify, merge, publish, distribute, sublicense, and/or 
-//  sell copies of the Software, and to permit persons to whom the Software is 
+//  rights to use, copy, modify, merge, publish, distribute, sublicense, and/or
+//  sell copies of the Software, and to permit persons to whom the Software is
 //  furnished to do so, subject to the following conditions:
 //
-//  The above copyright notice and this permission notice shall be included in 
+//  The above copyright notice and this permission notice shall be included in
 //  all copies or substantial portions of the Software.
 //
-//  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR 
-//  IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, 
+//  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+//  IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
 //  FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-//  AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER 
-//  LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING 
+//  AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+//  LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
 //  FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 //  IN THE SOFTWARE.
-// ***************************************************************************
-// ***************************************************************************
+//******************************************************************************
 
 `timescale 1ns/100ps
 
-//data width converter
+/*
+ * Module: axis_char_to_string_converter
+ *
+ * Convert characters to a string. Output valid on carrige return or full.
+ *
+ * Parameters:
+ *
+ * master_width         - number of bytes for output data.
+ *
+ * Ports:
+ *
+ * aclk             - master clock
+ * arstn            - negative reset
+ * s_axis_tdata     - Input characters
+ * s_axis_tvalid    - Input character valid
+ * s_axis_tready    - Input ready for characters
+ * m_axis_tdata     - Output string built up of characters.
+ * m_axis_tvalid    - Output string is valid
+ * m_axis_tready    - Is the next device ready for output?
+ */
 module axis_char_to_string_converter #(
     parameter master_width = 1
   )
   (
-    //axi streaming clock and reset.
-    input                   aclk,
-    input                   arstn,
-    //slave input axis
+    input                         aclk,
+    input                         arstn,
     input  [ 7:0]                 s_axis_tdata,
     input                         s_axis_tvalid,
     output                        s_axis_tready,
-    //master output axis
     output [(master_width*8)-1:0] m_axis_tdata,
     output                        m_axis_tvalid,
     input                         m_axis_tready

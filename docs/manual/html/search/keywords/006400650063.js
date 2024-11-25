@@ -1,0 +1,1 @@
+﻿NDSearch.OnPrefixDataLoaded("dec",["Module"],[["decoder_fifo",,[[,,,,0,"File:uart_1553_core.v:decoder_fifo","SystemVerilogModule:decoder_fifo"]]]]);

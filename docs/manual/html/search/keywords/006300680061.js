@@ -1,0 +1,1 @@
+﻿NDSearch.OnPrefixDataLoaded("cha",["Module"],[["char_to_string",,[[,,,,0,"File:uart_1553_core.v:char_to_string","SystemVerilogModule:char_to_string"]]]]);

@@ -1,0 +1,27 @@
+\documentclass[usletter]{article}
+\usepackage{DejaVuSans}
+\renewcommand*\familydefault{\sfdefault}
+\usepackage[T1]{fontenc}
+\usepackage{graphicx}
+\usepackage{listings}
+\lstset{
+  breaklines=true,
+  postbreak=\mbox{\textcolor{red}{$\hookrightarrow$}\space},
+}
+\usepackage{pdfpages}
+\usepackage[hidelinks]{hyperref}
+\begin{document}
+
+  \include{src/common.tex}
+
+  %module documentation section
+
+  \includepdf[pages=-, addtotoc={1,subsection,1,uart 1553 core,p1}, pagecommand={}]{files_uart_1553_core-v.pdf}
+  \includepdf[pages=-, addtotoc={1,subsection,1,axis 1553 string decoder,p1}, pagecommand={}]{files_axis_1553_string_decoder-v.pdf}
+  \includepdf[pages=-, addtotoc={1,subsection,1,axis 1553 string encoder,p1}, pagecommand={}]{files_axis_1553_string_encoder-v.pdf}
+  \includepdf[pages=-, addtotoc={1,subsection,1,axis char to string converter,p1}, pagecommand={}]{files_axis_char_to_string_converter-v.pdf}
+  \includepdf[pages=-, addtotoc={1,subsection,1,ARTY system,p1}, pagecommand={}]{files2_system_wrapper-v.pdf}
+  \includepdf[pages=-, addtotoc={1,subsection,1,CMOD system,p1}, pagecommand={}]{files3_system_wrapper-v.pdf}
+  \includepdf[pages=-, addtotoc={1,subsection,1,NEXYS system,p1}, pagecommand={}]{files4_system_wrapper-v.pdf}
+
+\end{document}

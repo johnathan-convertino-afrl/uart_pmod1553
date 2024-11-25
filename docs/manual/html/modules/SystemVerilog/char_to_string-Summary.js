@@ -1,0 +1,1 @@
+﻿NDFramePage.OnPageTitleLoaded("SystemVerilogModule:char_to_string","char_to_string");NDSummary.OnSummaryLoaded("SystemVerilogModule:char_to_string",[["SystemVerilog","SystemVerilog"]],[["Modules","Module"]],[[40,0,0,"char_to_string"]]);

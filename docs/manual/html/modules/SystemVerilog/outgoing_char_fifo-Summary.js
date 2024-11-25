@@ -1,0 +1,1 @@
+﻿NDFramePage.OnPageTitleLoaded("SystemVerilogModule:outgoing_char_fifo","outgoing_char_fifo");NDSummary.OnSummaryLoaded("SystemVerilogModule:outgoing_char_fifo",[["SystemVerilog","SystemVerilog"]],[["Modules","Module"]],[[37,0,0,"outgoing_char_fifo"]]);

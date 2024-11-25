@@ -1,0 +1,159 @@
+\begin{titlepage}
+  \begin{center}
+
+  {\Huge UART\_PMOD1553}
+
+  \vspace{25mm}
+
+  \includegraphics[width=0.90\textwidth,height=\textheight,keepaspectratio]{img/AFRL.png}
+
+  \vspace{25mm}
+
+  \today
+
+  \vspace{15mm}
+
+  {\Large Jay Convertino}
+
+  \end{center}
+\end{titlepage}
+
+\tableofcontents
+
+\newpage
+
+\section{Usage}
+
+\subsection{Introduction}
+
+\par
+UART pmod1553 is a fusesoc 1553 project that has all input/output data through the UART. The 1553 is for avaiation bus connections.
+The UART is a simple interface for sending and receiving data, and does not emulate a bus endpoint or controller. Software that
+reads and writes from the UART is responsible for that response.
+
+\subsection{Interface}
+\par
+For xilinx fifo and uart the format is the same.
+Data is received in the following ASCII string format:
+\begin{lstlisting}[language=bash]
+  $ CMDS;D1;P1;I0;Hx5555\r
+  $ DATA;D0;P1;I0;HxAAAA\r
+\end{lstlisting}
+
+\par
+The fields are seperated by ; .
+
+\begin{itemize}
+\item The first is the sync type, Command/Status = CMDS, Data = DATA
+\item The second is if there is a 4us delay, 1 = delay over 4us, 0 = no delay or less then 4us.
+\item The third is parity, 1 = parity good, 0 = parity bad
+\item The fourth is invert, 1 = core is inverting data, 0 = core is not inverting data
+\item The fifth is the data in hex format, Hx???? where ? = 4 characters representing the data (16 bits in total).
+\item The carrige return is the string terminator. This works well with serial consoles with local newline addition enabled.
+\end{itemize}
+
+\par
+Data is sent in the following ASCII string format:
+\begin{lstlisting}[language=bash]
+  $ CMDS;D1;P1;I0;Hx5555\r
+  $ DATA;D0;P1;I0;HxAAAA\r
+\end{lstlisting}
+
+\par
+The fields are seperated by ; .
+
+\begin{itemize}
+\item The first is the sync type, Command/Status = CMDS, Data = DATA
+\item The second is to enable a 4us delay, 1 = delay of at least 4us, 0 = no delay or less then 4us.
+\item The third is parity, 1 = parity odd (default), 0 = parity even
+\item The fourth is invert, 1 = invert data, 0 = don't invert data
+\item The fifth is the data in hex format, Hx???? where ? = 4 characters representing the data (16 bits in total).
+\item The carrige return is the string terminator.
+\end{itemize}
+
+\subsection{Dependencies}
+
+\par
+The following are the dependencies of the cores.
+
+\begin{itemize}
+  \item fusesoc 2.X
+  \item iverilog (simulation)
+  \item cocotb (simulation)
+\end{itemize}
+
+\input{src/fusesoc/depend_fusesoc_info.tex}
+
+\section{Architecture}
+\par
+The project contains wrappers for the top level projects, and a common uart 1553 module for all.
+
+\begin{itemize}
+  \item \textbf{system\_wrapper} Contains the top level project module and contains uart\_1553\_core and any other logic needed.
+  \item \textbf{uart\_1555\_core} Contains the PMOD1553, UART, and string generation interfaces.
+\end{itemize}
+
+\par
+
+Please see \ref{Module Documentation} for more information per target.
+
+\section{Building}
+
+\par
+The all UART pmod1553 is written in Verilog 2001. They should synthesize in any modern FPGA software. The core comes as a fusesoc packaged core and can be
+included in any other core. Be sure to make sure you have meet the dependencies listed in the previous section.
+
+\subsection{fusesoc}
+\par
+Fusesoc is a system for building FPGA software without relying on the internal project management of the tool. Avoiding vendor lock in to Vivado or Quartus.
+These cores, when included in a project, can be easily integrated and targets created based upon the end developer needs. The core by itself is not a part of
+a system and should be integrated into a fusesoc based system. Simulations are setup to use fusesoc and are a part of its targets.
+
+\subsection{Source Files}
+
+\input{src/fusesoc/files_fusesoc_info.tex}
+
+\subsection{Targets} \label{targets}
+
+\input{src/fusesoc/targets_fusesoc_info.tex}
+
+\subsection{Directory Guide}
+
+\par
+Below highlights important folders from the root of the directory.
+
+\begin{enumerate}
+  \item \textbf{docs} Contains all documentation related to this project.
+    \begin{itemize}
+      \item \textbf{manual} Contains user manual and github page that are generated from the latex sources.
+    \end{itemize}
+  \item \textbf{arty-a7-35} Contains source files for arty-a7-35
+  \item \textbf{common} Contains source file wrapper and helper cores for uart PMOD1553 core
+  \item \textbf{cmod-s7-25} Contains source files for cmod-s7-25
+  \item \textbf{nexys-a7-100t} Contains source files for nexys-a7-100t
+\end{enumerate}
+
+\newpage
+
+\section{Simulation}
+\par
+There is no simulation at the moment. This is dues to the AD9361 and ARM subsystems. Maybe a future addition with Vexriscv?
+
+\newpage
+
+\section{Module Documentation} \label{Module Documentation}
+
+\par
+There project has multiple modules. The targets are the top system wrappers.
+
+\begin{itemize}
+\item \textbf{arty-a7-35 system wrapper}
+\item \textbf{cmod-s7-25 system wrapper}
+\item \textbf{nexys-a7-100t system wrapper}
+\item \textbf{uart 1553 core wrapper}
+\item \textbf{axis 1553 string decoder}
+\item \textbf{axis 1553 string encoder}
+\item \textbf{axis char to string converter}
+\end{itemize}
+The next sections document the modules.
+

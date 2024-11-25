@@ -1,0 +1,1 @@
+﻿NDFramePage.OnPageTitleLoaded("SystemVerilogModule:string_encoder","string_encoder");NDSummary.OnSummaryLoaded("SystemVerilogModule:string_encoder",[["SystemVerilog","SystemVerilog"]],[["Modules","Module"]],[[35,0,0,"string_encoder"]]);

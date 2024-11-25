@@ -1,0 +1,1 @@
+﻿NDFramePage.OnPageTitleLoaded("SystemVerilogModule:mil1553_decoder","mil1553_decoder");NDSummary.OnSummaryLoaded("SystemVerilogModule:mil1553_decoder",[["SystemVerilog","SystemVerilog"]],[["Modules","Module"]],[[33,0,0,"mil1553_decoder"]]);

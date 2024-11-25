@@ -1,0 +1,1 @@
+﻿NDSearch.OnPrefixDataLoaded("enc",["Module"],[["encoder_fifo",,[[,,,,0,"File:uart_1553_core.v:encoder_fifo","SystemVerilogModule:encoder_fifo"]]]]);

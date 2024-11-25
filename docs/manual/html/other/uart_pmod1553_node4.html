@@ -1,0 +1,142 @@
+<!DOCTYPE HTML>
+
+<!--Converted with LaTeX2HTML 2021.2 (Released July 1, 2021) -->
+<HTML lang="en">
+<HEAD>
+<TITLE>Interface</TITLE>
+<META NAME="description" CONTENT="Interface">
+<META NAME="keywords" CONTENT="html">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=utf-8">
+<META NAME="viewport" CONTENT="width=device-width, initial-scale=1.0">
+<META NAME="Generator" CONTENT="LaTeX2HTML v2021.2">
+
+<LINK REL="STYLESHEET" HREF="html.css">
+
+<LINK REL="next" HREF="uart_pmod1553_node5.html">
+<LINK REL="previous" HREF="uart_pmod1553_node3.html">
+<LINK REL="next" HREF="uart_pmod1553_node5.html">
+</HEAD>
+
+<BODY >
+
+<DIV CLASS="navigation"><!--Navigation Panel-->
+<A
+ HREF="uart_pmod1553_node5.html">
+<IMG WIDTH="37" HEIGHT="24" ALT="next" SRC="next.png"></A> 
+<A
+ HREF="uart_pmod1553_node2.html">
+<IMG WIDTH="26" HEIGHT="24" ALT="up" SRC="up.png"></A> 
+<A
+ HREF="uart_pmod1553_node3.html">
+<IMG WIDTH="63" HEIGHT="24" ALT="previous" SRC="prev.png"></A> 
+<A ID="tex2html54"
+  HREF="uart_pmod1553_node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALT="contents" SRC="contents.png"></A>  
+<BR>
+<B> Next:</B> <A
+ HREF="uart_pmod1553_node5.html">Dependencies</A>
+<B> Up:</B> <A
+ HREF="uart_pmod1553_node2.html">Usage</A>
+<B> Previous:</B> <A
+ HREF="uart_pmod1553_node3.html">Introduction</A>
+ &nbsp; <B>  <A ID="tex2html55"
+  HREF="uart_pmod1553_node1.html">Contents</A></B> 
+<BR>
+<BR></DIV>
+<!--End of Navigation Panel-->
+
+<H2><A ID="SECTION00022000000000000000">
+Interface</A>
+</H2>
+
+<P>
+For xilinx fifo and uart the format is the same.
+Data is received in the following ASCII string format:
+<TABLE FRAME="VOID" CELLPADDING="4"><TR><TD>
+<PRE>
+  $ CMDS;D1;P1;I0;Hx5555\r
+  $ DATA;D0;P1;I0;HxAAAA\r
+</PRE>
+</TD></TR></TABLE>
+
+<P>
+The fields are seperated by ; .
+
+<P>
+
+<UL>
+<LI>The first is the sync type, Command/Status = CMDS, Data = DATA
+</LI>
+<LI>The second is if there is a 4us delay, 1 = delay over 4us, 0 = no delay or less then 4us.
+</LI>
+<LI>The third is parity, 1 = parity good, 0 = parity bad
+</LI>
+<LI>The fourth is invert, 1 = core is inverting data, 0 = core is not inverting data
+</LI>
+<LI>The fifth is the data in hex format, Hx???? where ? = 4 characters representing the data (16 bits in total).
+</LI>
+<LI>The carrige return is the string terminator. This works well with serial consoles with local newline addition enabled.
+</LI>
+</UL>
+
+<P>
+Data is sent in the following ASCII string format:
+<TABLE FRAME="VOID" CELLPADDING="4"><TR><TD>
+<PRE>
+  $ CMDS;D1;P1;I0;Hx5555\r
+  $ DATA;D0;P1;I0;HxAAAA\r
+</PRE>
+</TD></TR></TABLE>
+
+<P>
+The fields are seperated by ; .
+
+<P>
+
+<UL>
+<LI>The first is the sync type, Command/Status = CMDS, Data = DATA
+</LI>
+<LI>The second is to enable a 4us delay, 1 = delay of at least 4us, 0 = no delay or less then 4us.
+</LI>
+<LI>The third is parity, 1 = parity odd (default), 0 = parity even
+</LI>
+<LI>The fourth is invert, 1 = invert data, 0 = don't invert data
+</LI>
+<LI>The fifth is the data in hex format, Hx???? where ? = 4 characters representing the data (16 bits in total).
+</LI>
+<LI>The carrige return is the string terminator.
+</LI>
+</UL>
+
+<P>
+
+<DIV CLASS="navigation"><HR>
+<!--Navigation Panel-->
+<A
+ HREF="uart_pmod1553_node5.html">
+<IMG WIDTH="37" HEIGHT="24" ALT="next" SRC="next.png"></A> 
+<A
+ HREF="uart_pmod1553_node2.html">
+<IMG WIDTH="26" HEIGHT="24" ALT="up" SRC="up.png"></A> 
+<A
+ HREF="uart_pmod1553_node3.html">
+<IMG WIDTH="63" HEIGHT="24" ALT="previous" SRC="prev.png"></A> 
+<A ID="tex2html54"
+  HREF="uart_pmod1553_node1.html">
+<IMG WIDTH="65" HEIGHT="24" ALT="contents" SRC="contents.png"></A>  
+<BR>
+<B> Next:</B> <A
+ HREF="uart_pmod1553_node5.html">Dependencies</A>
+<B> Up:</B> <A
+ HREF="uart_pmod1553_node2.html">Usage</A>
+<B> Previous:</B> <A
+ HREF="uart_pmod1553_node3.html">Introduction</A>
+ &nbsp; <B>  <A ID="tex2html55"
+  HREF="uart_pmod1553_node1.html">Contents</A></B> </DIV>
+<!--End of Navigation Panel-->
+
+</BODY>
+</HTML>

@@ -1,0 +1,1 @@
+﻿NDFramePage.OnPageTitleLoaded("SystemVerilogModule:uart_1553_core","uart_1553_core");NDSummary.OnSummaryLoaded("SystemVerilogModule:uart_1553_core",[["SystemVerilog","SystemVerilog"]],[["Modules","Module"]],[[31,0,0,"uart_1553_core"]]);

@@ -1,0 +1,1 @@
+﻿NDSearch.OnPrefixDataLoaded("out",["Module"],[["outgoing_char_fifo",,[[,,,,0,"File:uart_1553_core.v:outgoing_char_fifo","SystemVerilogModule:outgoing_char_fifo"]]]]);

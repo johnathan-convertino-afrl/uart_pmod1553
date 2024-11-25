@@ -1,0 +1,1 @@
+﻿NDFramePage.OnPageTitleLoaded("SystemVerilogModule:decoder_fifo","decoder_fifo");NDSummary.OnSummaryLoaded("SystemVerilogModule:decoder_fifo",[["SystemVerilog","SystemVerilog"]],[["Modules","Module"]],[[34,0,0,"decoder_fifo"]]);

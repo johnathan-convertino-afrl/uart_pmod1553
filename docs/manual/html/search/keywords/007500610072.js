@@ -1,0 +1,1 @@
+﻿NDSearch.OnPrefixDataLoaded("uar",["Module","File"],[["uart_1553_core",,[[,,,,0,"File:uart_1553_core.v:uart_1553_core","SystemVerilogModule:uart_1553_core"],[,"uart_1553_core.v",,,1,"File:uart_1553_core.v:uart_1553_core.v"]]]]);

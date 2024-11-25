@@ -1,0 +1,1 @@
+﻿NDFramePage.OnPageTitleLoaded("SystemVerilogModule:axis_1553_string_decoder","axis_1553_string_decoder");NDSummary.OnSummaryLoaded("SystemVerilogModule:axis_1553_string_decoder",[["SystemVerilog","SystemVerilog"]],[["Modules","Module"]],[[9,0,0,"axis_1553_string_decoder"]]);

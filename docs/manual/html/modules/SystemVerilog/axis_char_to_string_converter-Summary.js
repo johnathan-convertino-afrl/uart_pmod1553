@@ -1,0 +1,1 @@
+﻿NDFramePage.OnPageTitleLoaded("SystemVerilogModule:axis_char_to_string_converter","axis_char_to_string_converter");NDSummary.OnSummaryLoaded("SystemVerilogModule:axis_char_to_string_converter",[["SystemVerilog","SystemVerilog"]],[["Modules","Module"]],[[87,0,0,"axis_char_to_string_converter"]]);
