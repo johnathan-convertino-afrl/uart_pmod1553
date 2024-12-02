@@ -78,7 +78,6 @@ module system_wrapper #(
   // Module instance of clock wizard to change input clock to requested clock speed.
   clk_wiz_1 inst_clk_wiz_1 (
     .clk_out1(sys_clk),
-    .reset(push_buttons[0]),
     .clk_in1(clk)
   );
 
