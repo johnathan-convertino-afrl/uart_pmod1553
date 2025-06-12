@@ -72,14 +72,6 @@
  */
 module uart_1553_core #(
     parameter clock_speed = 2000000,
-    parameter uart_baud_clock_speed  = 2000000,
-    parameter uart_baud_rate   = 2000000,
-    parameter uart_parity_ena  = 0,
-    parameter uart_parity_type = 0,
-    parameter uart_stop_bits   = 1,
-    parameter uart_data_bits   = 8,
-    parameter uart_rx_delay    = 0,
-    parameter uart_tx_delay    = 0,
     parameter mil1553_sample_rate         = 2000000,
     parameter mil1553_rx_bit_slice_offset = 0,
     parameter mil1553_rx_invert_data      = 0,
@@ -88,12 +80,8 @@ module uart_1553_core #(
   (
     input   aclk,
     input   arstn,
-    input   uart_clk,
-    input   uart_rstn,
     input   rx_UART,
     output  tx_UART,
-    output  rts_UART,
-    input   cts_UART,
     input   rx0_1553,
     input   rx1_1553,
     output  tx0_1553,
@@ -272,15 +260,12 @@ module uart_1553_core #(
   // Module: string_to_char
   //
   // AXIS UART
-  axis_uart #(
-    .BAUD_CLOCK_SPEED(uart_baud_clock_speed),
-    .BAUD_RATE(uart_baud_rate),
-    .PARITY_ENA(uart_parity_ena),
-    .PARITY_TYPE(uart_parity_type),
-    .STOP_BITS(uart_stop_bits),
-    .DATA_BITS(uart_data_bits),
-    .RX_DELAY(uart_rx_delay),
-    .TX_DELAY(uart_tx_delay)
+  fast_axis_uart #(
+    .CLOCK_SPEED(clock_speed),
+    .BAUD_RATE(115200),
+    .PARITY_TYPE(0),
+    .STOP_BITS(1),
+    .DATA_BITS(8)
   ) axis_uart (
     .aclk(aclk),
     .arstn(arstn),
@@ -290,12 +275,8 @@ module uart_1553_core #(
     .m_axis_tdata(muart_char_data),
     .m_axis_tvalid(muart_char_valid),
     .m_axis_tready(muart_char_ready),
-    .uart_clk(uart_clk),
-    .uart_rstn(uart_rstn),
     .tx(tx_UART),
-    .rx(rx_UART),
-    .rts(rts_UART),
-    .cts(cts_UART)
+    .rx(rx_UART)
   );
   
   // Module: incomming_char_fifo

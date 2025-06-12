@@ -24,7 +24,7 @@ filesets:
       - AFRL:buffer:axis_fifo:1.0.0
       - AFRL:streaming_converter:axis_data_width_converter:1.0.1
       - AFRL:buffer:axis_tiny_fifo:1.0.0
-      - AFRL:device_converter:axis_uart:1.0.0
+      - AFRL:device_converter:fast_axis_uart:1.0.0
       - AFRL:device_converter:axis_1553_encoder:1.0.0
 
 targets:

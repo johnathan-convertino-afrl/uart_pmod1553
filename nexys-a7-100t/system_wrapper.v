@@ -55,7 +55,6 @@
  */
 module system_wrapper #(
   parameter clock_speed = 2000000,
-  parameter baud_rate = 1000000,
   parameter mil1553_sample_rate = 2000000
   )
   (
@@ -67,6 +66,8 @@ module system_wrapper #(
   input           ftdi_rts,
   output          ftdi_cts
   );
+  
+  assign ftdi_cts = ftdi_rts;
 
   wire sys_clk;
   wire resetn;
@@ -102,14 +103,6 @@ module system_wrapper #(
   // Module instance of the 1553 UART with all cores tied together as a common device.
   uart_1553_core #(
     .clock_speed(clock_speed),
-    .uart_baud_clock_speed(clock_speed),
-    .uart_baud_rate(baud_rate),
-    .uart_parity_ena(0),
-    .uart_parity_type(0),
-    .uart_stop_bits(1),
-    .uart_data_bits(8),
-    .uart_rx_delay(0),
-    .uart_tx_delay(0),
     .mil1553_sample_rate(mil1553_sample_rate),
     .mil1553_rx_bit_slice_offset(0),
     .mil1553_rx_invert_data(0),
@@ -117,12 +110,8 @@ module system_wrapper #(
   ) inst_uart_1553_core (
     .aclk(sys_clk),
     .arstn(resetn),
-    .uart_clk(sys_clk),
-    .uart_rstn(resetn),
     .rx_UART(ftdi_tx),
     .tx_UART(ftdi_rx),
-    .rts_UART(ftdi_cts),
-    .cts_UART(ftdi_rts),
     .rx0_1553(pmod_ja[0]),
     .rx1_1553(pmod_ja[1]),
     .tx0_1553(pmod_ja[2]),
