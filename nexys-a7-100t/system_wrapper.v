@@ -39,9 +39,7 @@
  *
  * Parameters:
  *
- * clock_speed          - Requested Master Clock Speed from clk wiz
- * baud_rate            - UART BAUD rate
- * mil1553_sample_rate  - Sample rate for 1553, must be 2 MHz or above, and divide evenly into clock_speed.
+ * CLOCK_SPEED          - Requested Master Clock Speed from clk wiz
  *
  * Ports:
  *
@@ -54,8 +52,7 @@
  * ftdi_cts     - FTDI Clear to send, output.
  */
 module system_wrapper #(
-  parameter clock_speed = 2000000,
-  parameter mil1553_sample_rate = 2000000
+  parameter CLOCK_SPEED = 2000000
   )
   (
   input           clk,
@@ -102,21 +99,15 @@ module system_wrapper #(
   //
   // Module instance of the 1553 UART with all cores tied together as a common device.
   uart_1553_core #(
-    .clock_speed(clock_speed),
-    .mil1553_sample_rate(mil1553_sample_rate),
-    .mil1553_rx_bit_slice_offset(0),
-    .mil1553_rx_invert_data(0),
-    .mil1553_rx_sample_select(0)
+    .CLOCK_SPEED(CLOCK_SPEED)
   ) inst_uart_1553_core (
     .aclk(sys_clk),
     .arstn(resetn),
     .rx_UART(ftdi_tx),
     .tx_UART(ftdi_rx),
-    .rx0_1553(pmod_ja[0]),
-    .rx1_1553(pmod_ja[1]),
-    .tx0_1553(pmod_ja[2]),
-    .tx1_1553(pmod_ja[3]),
-    .en_tx_1553(pmod_ja[4])
+    .tx_diff(pmod_ja[1:0]),
+    .rx_diff(pmod_ja[3:2]),
+    .tx_active(pmod_ja[4])
   );
 
 endmodule

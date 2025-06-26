@@ -40,69 +40,40 @@
  *
  * Parameters:
  *
- * clock_speed = 2000000        - Requested Master Clock Speed from clk wiz
- * uart_baud_clock_speed        - UART Master Clock Speed
- * uart_baud_rate               - UART BAUD rate
- * uart_parity_ena              - UART Parity enable, active high.
- * uart_parity_type             - UART Parity type
- * uart_stop_bits               - UART Number of stop bits.
- * uart_data_bits               - UART Number of data bits.
- * uart_rx_delay                - UART RX Delay to align data.
- * uart_tx_delay                - UART TX Delay to align data.
- * mil1553_sample_rate          - Sample rate for 1553, must be 2 MHz or above, and divide evenly into clock_speed.
- * mil1553_rx_bit_slice_offset  - 1553 change the offset of the receive bit taken from the inital sampling.
- * mil1553_rx_invert_data       - Invert 1553 data received.
- * mil1553_rx_sample_select     - 1553 select sample from initial sampling.
+ * CLOCK_SPEED - Requested Master Clock Speed from clk wiz
  *
  * Ports:
  *
  * aclk       - Master Clock
  * arstn      - Base Reset
- * uart_clk   - UART Master Clock
- * uart_rstn  - UART reset
  * rx_UART    - UART RX input
  * tx_UART    - UART TX output
- * rts_UART   - UART request to send
- * cts_UART   - UART clear to send
- * rx0_1553   - PMOD1553 RX diff
- * rx1_1553   - PMOD1553 RX diff
- * tx0_1553   - PMOD1553 TX diff
- * tx1_1553   - PMOD1553 TX diff
- * en_tx_1553 - PMOD1553 enable transmit on mux.
+ * rx_diff    - MIL-STD-1553 receive
+ * tx_diff    - MIL-STD-1553 transmit
  */
 module uart_1553_core #(
-    parameter clock_speed = 2000000,
-    parameter mil1553_sample_rate         = 2000000,
-    parameter mil1553_rx_bit_slice_offset = 0,
-    parameter mil1553_rx_invert_data      = 0,
-    parameter mil1553_rx_sample_select    = 0
+    parameter CLOCK_SPEED = 2000000
   )
   (
-    input   aclk,
-    input   arstn,
-    input   rx_UART,
-    output  tx_UART,
-    input   rx0_1553,
-    input   rx1_1553,
-    output  tx0_1553,
-    output  tx1_1553,
-    output  en_tx_1553
+    input         aclk,
+    input         arstn,
+    input         rx_UART,
+    output        tx_UART,
+    input  [1:0]  rx_diff,
+    output [1:0]  tx_diff,
+    output        tx_active
   );
-  
-  //wires
-  wire [1:0] rx_1553;
-  wire [1:0] tx_1553;
   
   //decoder path
   //1553 decoder m_axis (data output)
   wire [15:0]   m1553_decoder_data;
   wire          m1553_decoder_valid;
-  wire [ 7:0]   m1553_decoder_user;
+  wire [ 5:0]   m1553_decoder_user;
   wire          m1553_decoder_ready;
   //decoder fifo m_axis (data output)
   wire [15:0]   mfifo_decoder_data;
   wire          mfifo_decoder_valid;
-  wire [ 7:0]   mfifo_decoder_user;
+  wire [ 5:0]   mfifo_decoder_user;
   wire          mfifo_decoder_ready;
   //string encoder m_axis (data output)
   wire [167:0]  mstring_encoder_data;
@@ -141,33 +112,7 @@ module uart_1553_core #(
   wire [ 7:0]   mfifo_encoder_user;
   wire          mfifo_encoder_ready;
   
-  //break out
-  assign rx_1553[0] = rx0_1553;
-  assign rx_1553[1] = rx1_1553;
-  
-  assign tx0_1553 = tx_1553[0];
-  assign tx1_1553 = tx_1553[1];
-  
   // Group: Instantianted Modules
-
-  // Module: mil1553_decoder
-  //
-  // Module mil-std-1553 decoder capable of any clock rate at or above 2 MHz
-  axis_1553_decoder #(
-    .CLOCK_SPEED(clock_speed),
-    .SAMPLE_RATE(mil1553_sample_rate),
-    .BIT_SLICE_OFFSET(mil1553_rx_bit_slice_offset),
-    .INVERT_DATA(mil1553_rx_invert_data),
-    .SAMPLE_SELECT(mil1553_rx_sample_select)
-  ) mil1553_decoder (
-    .aclk(aclk),
-    .arstn(arstn),
-    .m_axis_tdata(m1553_decoder_data),
-    .m_axis_tvalid(m1553_decoder_valid),
-    .m_axis_tuser(m1553_decoder_user),
-    .m_axis_tready(m1553_decoder_ready),
-    .diff(rx_1553)
-  );
   
   // Module: decoder_fifo
   //
@@ -176,7 +121,7 @@ module uart_1553_core #(
     .FIFO_DEPTH  (256),
     .COUNT_WIDTH (0),
     .BUS_WIDTH   (2),
-    .USER_WIDTH  (8),
+    .USER_WIDTH  (6),
     .DEST_WIDTH  (1),
     .RAM_TYPE    ("block"),
     .PACKET_MODE (0),
@@ -261,7 +206,7 @@ module uart_1553_core #(
   //
   // AXIS UART
   fast_axis_uart #(
-    .CLOCK_SPEED(clock_speed),
+    .CLOCK_SPEED(CLOCK_SPEED),
     .BAUD_RATE(115200),
     .PARITY_TYPE(0),
     .STOP_BITS(1),
@@ -335,7 +280,7 @@ module uart_1553_core #(
     .FIFO_DEPTH  (256),
     .COUNT_WIDTH (0),
     .BUS_WIDTH   (2),
-    .USER_WIDTH  (8),
+    .USER_WIDTH  (6),
     .DEST_WIDTH  (1),
     .RAM_TYPE    ("block"),
     .PACKET_MODE (0),
@@ -365,21 +310,27 @@ module uart_1553_core #(
     .data_count()
   );
   
-  // Module: encoder_fifo
-  //
-  // mil-std-1553 encoder capable of any clock rate at or over 2 MHz
-  axis_1553_encoder #(
-    .CLOCK_SPEED(clock_speed),
-    .SAMPLE_RATE(mil1553_sample_rate)
-  ) mil1553_encoder (
+  axis_1553 #(
+    .CLOCK_SPEED(CLOCK_SPEED),
+    .RX_BAUD_DELAY(0),
+    .TX_BAUD_DELAY(0)
+  ) inst_axis_1553 (
     .aclk(aclk),
     .arstn(arstn),
+    .parity_err(m1553_decoder_user[5]),
+    .frame_err(),
     .s_axis_tdata(mfifo_encoder_data),
+    .s_axis_tuser(mfifo_encoder_user[4:0]),
     .s_axis_tvalid(mfifo_encoder_valid),
-    .s_axis_tuser(mfifo_encoder_user),
     .s_axis_tready(mfifo_encoder_ready),
-    .diff(tx_1553),
-    .en_diff(en_tx_1553)
+    .m_axis_tdata(m1553_decoder_data),
+    .m_axis_tuser(m1553_decoder_user[4:0]),
+    .m_axis_tvalid(m1553_decoder_valid),
+    .m_axis_tready(m1553_decoder_ready),
+    .tx_active(tx_active),
+    .tx_diff(tx_diff),
+    .rx_diff(rx_diff)
   );
+
   
 endmodule

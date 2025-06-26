@@ -68,7 +68,7 @@ module axis_1553_string_decoder #(
     output              s_axis_tready,
     output  [15:0]      m_axis_tdata,
     output              m_axis_tvalid,
-    output  [ 7:0]      m_axis_tuser,
+    output  [ 5:0]      m_axis_tuser,
     input               m_axis_tready
   );
   
@@ -79,7 +79,7 @@ module axis_1553_string_decoder #(
 
   reg [15:0] r_m_axis_tdata;
   reg        r_m_axis_tvalid;
-  reg [ 7:0] r_m_axis_tuser;
+  reg [ 5:0] r_m_axis_tuser;
 
   assign m_axis_tdata   = r_m_axis_tdata;
   assign m_axis_tvalid  = r_m_axis_tvalid;
@@ -138,38 +138,38 @@ module axis_1553_string_decoder #(
           //decode sync signal type
           case(w_s_axis_tdata[167:136])
             "DATA": begin
-              r_m_axis_tuser[7:5] <= 3'b010;
+              r_m_axis_tuser[2:0] <= 3'b010;
             end
             "CMDS": begin
-              r_m_axis_tuser[7:5] <= 3'b100;
+              r_m_axis_tuser[2:0] <= 3'b100;
             end
             default: begin
-              r_m_axis_tuser[7:5] <= 3'b000;
+              r_m_axis_tuser[2:0] <= 3'b000;
             end
           endcase
 
           //insert default value for encode delay
-          r_m_axis_tuser[2] <= 0;
+          r_m_axis_tuser[3] <= 0;
           
           //check for delay enable
           if(w_s_axis_tdata[127:112] == "D1") begin
-            r_m_axis_tuser[2] <= 1;
+            r_m_axis_tuser[3] <= 1;
           end
 
           //default parity value
-          r_m_axis_tuser[0] <= 0;
+          r_m_axis_tuser[5] <= 0;
           
           //check if odd parity requested
           if(w_s_axis_tdata[103:88] == "P1") begin
-            r_m_axis_tuser[0] <= 1;
+            r_m_axis_tuser[5] <= 1;
           end
 
-          //default non inverted
+          //default sync only
           r_m_axis_tuser[1] <= 0;
           
           //check if inversion requested
-          if(w_s_axis_tdata[79:64] == "I1") begin
-            r_m_axis_tuser[1] <= 1;
+          if(w_s_axis_tdata[79:64] == "S1") begin
+            r_m_axis_tuser[4] <= 1;
           end
 
           //offset conversion for hex to decimal

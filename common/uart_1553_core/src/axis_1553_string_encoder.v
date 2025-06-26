@@ -63,7 +63,7 @@ module axis_1553_string_encoder #(
     input               arstn,
     input   [ 15:0]     s_axis_tdata,
     input               s_axis_tvalid,
-    input   [  7:0]     s_axis_tuser,
+    input   [  5:0]     s_axis_tuser,
     output              s_axis_tready,
     output  [167:0]     m_axis_tdata,
     output              m_axis_tvalid,
@@ -131,7 +131,7 @@ module axis_1553_string_encoder #(
           r_m_axis_tkeep  <= ~0;
           
           //encode type of data
-          case(s_axis_tuser[7:5])
+          case(s_axis_tuser[2:0])
             //DATA
             3'b010: begin
               r_m_axis_tdata[167:136] <= "DATA";
@@ -153,7 +153,7 @@ module axis_1553_string_encoder #(
           r_m_axis_tdata[127:112] <= "D0";
           
           //encode delay check
-          if(s_axis_tuser[2] == 1'b1) begin
+          if(s_axis_tuser[3] == 1'b1) begin
             r_m_axis_tdata[127:112] <= "D1";
           end
           
@@ -164,19 +164,19 @@ module axis_1553_string_encoder #(
           r_m_axis_tdata[103:88] <= "P0";
           
           //parity check
-          if(s_axis_tuser[0] == 1'b1) begin
+          if(s_axis_tuser[5] == 1'b1) begin
             r_m_axis_tdata[103:88] <= "P1";
           end
           
           //insert seperator
           r_m_axis_tdata[87:80] <= ";";
           
-          //insert default value for invert state
-          r_m_axis_tdata[79:64] <= "I0";
+          //insert default value for sync only
+          r_m_axis_tdata[79:64] <= "S0";
           
           //invert data check
-          if(s_axis_tuser[1] == 1'b1) begin
-            r_m_axis_tdata[79:64] <= "I1";
+          if(s_axis_tuser[4] == 1'b1) begin
+            r_m_axis_tdata[79:64] <= "S1";
           end
           
           //insert seperator

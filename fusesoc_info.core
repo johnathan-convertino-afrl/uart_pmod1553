@@ -1,6 +1,6 @@
 CAPI=2:
 
-name : AFRL:project:uart_open1553:1.0.0
+name : AFRL:project:uart_pmod1553:1.0.0
 description: AFRL uart 1553 bus device project.
 
 filesets:
