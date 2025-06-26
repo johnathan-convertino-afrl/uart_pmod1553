@@ -1,7 +1,7 @@
 CAPI=2:
 
 name : AFRL:project:uart_pmod1553:1.0.0
-description: AFRL uart 1553 bus device project.
+description: AFRL uart pmod1553 bus device project.
 
 filesets:
   src_xilinx:

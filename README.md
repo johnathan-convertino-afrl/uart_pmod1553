@@ -1,5 +1,6 @@
 # UART pmod1553 FPGA Project
 ### Contains core files and scripts to generate a UART pmod1553 platform using fusesoc.
+---
 
 ![image](docs/manual/img/AFRL.png)
 
